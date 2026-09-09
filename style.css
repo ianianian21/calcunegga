@@ -1,0 +1,166 @@
+:root {
+    /* Centralized colors make the calculator theme easy to change. */
+    --bg-color: #0f1115;
+    --calc-bg: #1c1f26;
+    --display-color: #ffffff;
+    --text-muted: #6c727e;
+    --btn-bg: #282c34;
+    --btn-action: #3a3f4d;
+    --btn-operator: #ff9f0a;
+    --btn-hover: #4b5263;
+}
+
+* {
+    /* Use border-box so padding is included in each element's declared size. */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    /* Center the calculator in the browser window. */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.calculator {
+    /* This is the main visual panel containing the display and buttons. */
+    position: relative;
+    z-index: 1;
+    width: 340px;
+    background-color: var(--calc-bg);
+    padding: 24px;
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* A temporary visual-only prank: the calculator never leaves the page. */
+.calculator.explode {
+    /* JavaScript adds this class temporarily when a normal calculation finishes. */
+    animation: calculator-blast 1200ms ease-in-out;
+}
+
+.explosion-flash {
+    /* A fixed layer covers the viewport without blocking button clicks. */
+    position: fixed;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+    background: #fff7c2;
+    animation: flash-bang 1340ms ease-out forwards;
+}
+
+@keyframes calculator-blast {
+    /* Keyframes create the short shake and rotation animation. */
+    0%, 100% { transform: translate(0) rotate(0) scale(1); }
+    12% { transform: translate(-10px, 5px) rotate(-2deg) scale(1.03); }
+    24% { transform: translate(11px, -7px) rotate(2deg) scale(0.98); }
+    38% { transform: translate(-8px, -4px) rotate(-1deg) scale(1.02); }
+    52% { transform: translate(7px, 6px) rotate(1deg) scale(0.99); }
+    70% { transform: translate(-3px, -2px) rotate(0) scale(1.01); }
+}
+
+@keyframes flash-bang {
+    /* Bright for 0.67 seconds, then fade over 0.67 seconds. */
+    0%, 50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.display {
+    /* Stack the expression history, answer, and optional meme video vertically. */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    min-height: 120px;
+    padding: 10px;
+    margin-bottom: 20px;
+    word-break: break-all;
+}
+
+.history {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.current {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--display-color);
+}
+
+.meme-video {
+    /* Keep the video inside the display without stretching it too large. */
+    display: block;
+    width: 100%;
+    max-height: 160px;
+    margin-top: 12px;
+    border-radius: 12px;
+}
+
+.meme-video[hidden] {
+    /* The hidden attribute is enforced even though the regular video rule sets display. */
+    display: none;
+}
+
+.buttons {
+    /* Arrange the calculator controls in a four-column grid. */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.btn {
+    /* Shared appearance and sizing for every calculator button. */
+    height: 62px;
+    width: 62px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--btn-bg);
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover);
+}
+
+.btn:active {
+    /* Give visual feedback while a button is being pressed. */
+    transform: scale(0.95);
+}
+
+.btn.action {
+    background-color: var(--btn-action);
+    color: #e4e6eb;
+}
+
+.btn.operator {
+    background-color: var(--btn-operator);
+}
+
+.btn.operator:hover {
+    filter: brightness(1.2);
+}
+
+.btn.zero {
+    grid-column: span 2;
+    width: 100%;
+    border-radius: 31px;
+    padding-left: 24px;
+    text-align: left;
+}
+
+.btn.equals {
+    background-color: var(--btn-operator);
+}
